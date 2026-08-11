@@ -6,7 +6,7 @@ import '../utils/app_style.dart';
 
 typedef OnValidator = String? Function(String?)?;
 
-class CustomTextFormField extends StatelessWidget {
+class CustomTextFormField extends StatefulWidget {
   Color borderSideColor;
   String? hintText;
   String? labelText;
@@ -28,25 +28,43 @@ class CustomTextFormField extends StatelessWidget {
    });
 
   @override
+  State<CustomTextFormField> createState() => _CustomTextFormFieldState();
+}
+
+class _CustomTextFormFieldState extends State<CustomTextFormField> {
+  late bool isObscure;
+  @override
+  void initState() {
+    isObscure = widget.obscureText;
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
     return TextFormField(
-      maxLines: maxLines,
-      validator: validator,
-      keyboardType: keyboardType,
-      obscureText: obscureText,
-      controller: controller,
-      style: textStyle??AppStyle.medium16darkGrey,
+      maxLines: widget.maxLines,
+      validator: widget.validator,
+      keyboardType: widget.keyboardType,
+      obscureText: isObscure,
+      controller: widget.controller,
+      style: widget.textStyle??AppStyle.medium16darkGrey,
       decoration: InputDecoration(
-        enabledBorder: builtDecorationBorder(borderSideColor: borderSideColor),
-        focusedBorder: builtDecorationBorder(borderSideColor: borderSideColor),
+        enabledBorder: builtDecorationBorder(borderSideColor: widget.borderSideColor),
+        focusedBorder: builtDecorationBorder(borderSideColor: widget.borderSideColor),
         errorBorder: builtDecorationBorder(borderSideColor: Colors.red),
         focusedErrorBorder: builtDecorationBorder(borderSideColor: Colors.red),
-        hintText: hintText,
-        labelText: labelText,
-        hintStyle: hintStyle?? AppStyle.bold16primary,
-        labelStyle: labelStyle?? AppStyle.medium16primary,
-        prefixIcon: prefixIcon,
-        suffixIcon: suffixIcon
+        hintText: widget.hintText,
+        labelText: widget.labelText,
+        hintStyle: widget.hintStyle?? AppStyle.bold16primary,
+        labelStyle: widget.labelStyle?? AppStyle.medium16primary,
+        prefixIcon: widget.prefixIcon,
+        suffixIcon: widget.obscureText?
+            IconButton(onPressed: () {
+              setState(() {
+              isObscure = !isObscure;
+
+              });
+            }, icon: Icon(isObscure?Icons.visibility_off : Icons.visibility)):
+            widget.suffixIcon,
       ),
     );
   }
@@ -54,7 +72,7 @@ class CustomTextFormField extends StatelessWidget {
 
 OutlineInputBorder builtDecorationBorder({required Color borderSideColor}){
 return OutlineInputBorder(
-    borderRadius: BorderRadius.circular(16),
+    borderRadius: BorderRadius.circular(8),
     borderSide: BorderSide(
         color: borderSideColor,
       width: 2

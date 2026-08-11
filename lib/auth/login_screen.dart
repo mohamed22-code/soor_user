@@ -43,97 +43,100 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: width*0.03),
-        child: Column(
-          // crossAxisAlignment: .center,
-          children: [
+        child: SingleChildScrollView(
+          child: Column(
+            // crossAxisAlignment: .center,
+            children: [
 
-            Image.asset(AppAssets.soorLogo),
-            SizedBox(height: height*0.04,),
-            Text(AppLocalizations.of(context)!.welcome, style: AppStyle.bold24white,),
-            Text('مع سور ... انت فى السيلم ، قم بتسجيل الدخول الآن', style: AppStyle.medium16white,),
-            SizedBox(height: height*0.02,),
-            Form(
-              key: formKey,
-              child: Column(
-                crossAxisAlignment: .stretch,
+              Image.asset(AppAssets.soorLogo),
+              SizedBox(height: height*0.04,),
+              Text(AppLocalizations.of(context)!.welcome, style: AppStyle.bold24white,),
+              Text('مع سور ... انت فى السيلم ، قم بتسجيل الدخول الآن', style: AppStyle.medium16white,),
+              SizedBox(height: height*0.02,),
+              Form(
+                key: formKey,
+                child: Column(
+                  crossAxisAlignment: .stretch,
+                  children: [
+                    Text('رقم الجوال',style: AppStyle.medium16white,),
+                    CustomTextFormField(
+                      hintText: '+966 000 000 00',
+                      keyboardType: TextInputType.phone,
+                      controller: phoneController,
+                      validator: (text) {
+                        if(text == null ||text.trim().isEmpty){
+                          return 'please enter your phone'; // todo: invalid
+                        }
+                        final bool phoneValid = RegExp(
+                          r'^01[0125][0-9]{8}$',
+                        ).hasMatch(text.trim());
+
+                        if (!phoneValid) {
+                          return 'Please enter a valid phone number';
+                        }
+
+                        return null;//todo: validate
+
+                      },
+                    ),
+                    SizedBox(height: height * 0.02),
+                    Text('كلمه المرور',style: AppStyle.medium16white,),
+                    CustomTextFormField(
+                      hintText: 'كلمه المرور',
+                      keyboardType: TextInputType.number,
+                      obscureText: true,
+                      controller: passwordController,
+                      validator: (text) {
+                        if(text == null ||text.trim().isEmpty){
+                          return 'please enter your password'; // todo: invalid
+                        }
+                        if(text.length < 6){
+                          return 'minimum password length is 6';
+                        }
+                        return null; //todo: validate
+                      },
+                    ),
+                    Row(
+                      mainAxisAlignment: .center,
+                      children: [
+                        TextButton(
+                          onPressed: () {},
+                          child: Text(
+                            'هل نسيت كلمه المرور؟',
+                            style: AppStyle.medium16secondaryGrey
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: height * 0.02),
+                    CustomElevatedButton(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      onPressed: login,
+                      text: 'تسجيل الدخول',
+                      textStyle: AppStyle.bold20white,
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: height * 0.25),
+              Row(
+                mainAxisAlignment: .center,
                 children: [
-                  Text('رقم الجوال',style: AppStyle.medium16white,),
-                  CustomTextFormField(
-                    hintText: '+966 000 000 00',
-                    keyboardType: TextInputType.phone,
-                    controller: phoneController,
-                    validator: (text) {
-                      if(text == null ||text.trim().isEmpty){
-                        return 'please enter your phone'; // todo: invalid
-                      }
-                      final bool phoneValid = RegExp(
-                        r'^01[0125][0-9]{8}$',
-                      ).hasMatch(text.trim());
-
-                      if (!phoneValid) {
-                        return 'Please enter a valid phone number';
-                      }
-
-                      return null;//todo: validate
-
+                  Text('لا تمتلك حساب؟',style: AppStyle.medium14darkGrey,),
+                  TextButton(
+                    onPressed: () {
+                      //todo: navigate to register screen
+                      Navigator.of(context).pushNamed(AppRoutes.registerRouteName);
                     },
-                  ),
-                  SizedBox(height: height * 0.02),
-                  Text('كلمه المرور',style: AppStyle.medium16white,),
-                  CustomTextFormField(
-                    hintText: 'كلمه المرور',
-                    keyboardType: TextInputType.number,
-                    obscureText: true,
-                    controller: passwordController,
-                    validator: (text) {
-                      if(text == null ||text.trim().isEmpty){
-                        return 'please enter your password'; // todo: invalid
-                      }
-                      if(text.length < 6){
-                        return 'minimum password length is 6';
-                      }
-                      return null; //todo: validate
-                    },
-                  ),
-                  Row(
-                    mainAxisAlignment: .center,
-                    children: [
-                      TextButton(
-                        onPressed: () {},
-                        child: Text(
-                          'هل نسيت كلمه المرور؟',
-                          style: AppStyle.medium16secondaryGrey
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: height * 0.02),
-                  CustomElevatedButton(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    onPressed: login,
-                    text: 'تسجيل الدخول',
-                    textStyle: AppStyle.bold20white,
-                  ),
-                  Row(
-                    mainAxisAlignment: .center,
-                    children: [
-                      Text('لا تمتلك حساب؟',style: AppStyle.medium14darkGrey,),
-                      TextButton(
-                        onPressed: () {
-                          //todo: navigate to register screen
-                          Navigator.of(context).pushNamed(AppRoutes.registerRouteName);
-                        },
-                        child: Text(
-                          'حساب جديد',
-                          style: AppStyle.medium16secondaryGrey
-                        ),
-                      ),
-                    ],
+                    child: Text(
+                        'حساب جديد',
+                        style: AppStyle.medium16secondaryGrey
+                    ),
                   ),
                 ],
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

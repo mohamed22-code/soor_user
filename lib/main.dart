@@ -4,6 +4,7 @@ import 'package:soor_user_app/home/home_screen.dart';
 import 'package:soor_user_app/utils/app_routes.dart';
 
 import 'auth/register_screen.dart';
+import 'auth/success_screen.dart';
 import 'l10n/app_localizations.dart';
 
 void main() {
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
         AppRoutes.loginRouteName: (context) => const LoginScreen(),
         AppRoutes.registerRouteName: (context) => const RegisterScreen(),
         AppRoutes.homeRouteName: (context) => const HomeScreen(),
+        AppRoutes.successRouteName: (context) => const SuccessScreen(),
       },
     );
   }
