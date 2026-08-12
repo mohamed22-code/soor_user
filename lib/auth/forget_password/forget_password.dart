@@ -87,7 +87,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
   void verification() {
     if(formKey.currentState?.validate() == true){
       //todo: send OTP
-
+      Navigator.of(context).pushNamed(AppRoutes.verificationPasswordRouteName,arguments: phoneController.text);
     }
   }
 }

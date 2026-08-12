@@ -6,4 +6,5 @@ class AppRoutes {
   static const String changePasswordRouteName = 'change_password_screen';
   static const String forgetPasswordRouteName = 'forget_password_screen';
   static const String resetPasswordRouteName = 'reset_password_screen';
+  static const String verificationPasswordRouteName = 'verification_password_screen';
 }

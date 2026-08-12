@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:soor_user_app/auth/forget_password/forget_password.dart';
 import 'package:soor_user_app/auth/forget_password/password_change.dart';
 import 'package:soor_user_app/auth/forget_password/reset_password.dart';
+import 'package:soor_user_app/auth/forget_password/verification_screen.dart';
 import 'package:soor_user_app/auth/login_screen.dart';
 import 'package:soor_user_app/home/home_screen.dart';
 import 'package:soor_user_app/utils/app_routes.dart';
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.light,
       theme: AppTheme.lightTheme,
       // home: const LoginScreen(),
-      initialRoute: AppRoutes.resetPasswordRouteName,
+      initialRoute: AppRoutes.forgetPasswordRouteName,
       routes: {
         AppRoutes.loginRouteName: (context) => const LoginScreen(),
         AppRoutes.registerRouteName: (context) => const RegisterScreen(),
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
         AppRoutes.forgetPasswordRouteName: (context) => const ForgetPassword(),
         AppRoutes.resetPasswordRouteName: (context) => const ResetPassword(),
         AppRoutes.changePasswordRouteName: (context) => const PasswordChange(),
+        AppRoutes.verificationPasswordRouteName: (context) =>  VerificationScreen(),
       },
     );
   }
