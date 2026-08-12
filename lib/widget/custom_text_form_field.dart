@@ -20,7 +20,7 @@ class CustomTextFormField extends StatefulWidget {
   bool obscureText;
   int? maxLines;
   TextEditingController? controller;
-   CustomTextFormField({super.key, this.borderSideColor = AppColors.darkGray,
+   CustomTextFormField({super.key, this.borderSideColor = AppColors.borderSideColor,
    this.hintText, this.labelText, this.hintStyle, this.labelStyle, this.textStyle,
      this.prefixIcon, this.suffixIcon, this.validator,
      this.keyboardType = TextInputType.text, this.obscureText = false,
@@ -72,6 +72,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
 
 OutlineInputBorder builtDecorationBorder({required Color borderSideColor}){
 return OutlineInputBorder(
+
     borderRadius: BorderRadius.circular(8),
     borderSide: BorderSide(
         color: borderSideColor,

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:soor_user_app/auth/forget_password/forget_password.dart';
+import 'package:soor_user_app/auth/forget_password/password_change.dart';
+import 'package:soor_user_app/auth/forget_password/reset_password.dart';
 import 'package:soor_user_app/auth/login_screen.dart';
 import 'package:soor_user_app/home/home_screen.dart';
 import 'package:soor_user_app/utils/app_routes.dart';
+import 'package:soor_user_app/utils/app_theme.dart';
 
 import 'auth/register_screen.dart';
 import 'auth/success_screen.dart';
@@ -24,13 +28,17 @@ class MyApp extends StatelessWidget {
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       themeMode: ThemeMode.light,
+      theme: AppTheme.lightTheme,
       // home: const LoginScreen(),
-      initialRoute: AppRoutes.loginRouteName,
+      initialRoute: AppRoutes.resetPasswordRouteName,
       routes: {
         AppRoutes.loginRouteName: (context) => const LoginScreen(),
         AppRoutes.registerRouteName: (context) => const RegisterScreen(),
         AppRoutes.homeRouteName: (context) => const HomeScreen(),
         AppRoutes.successRouteName: (context) => const SuccessScreen(),
+        AppRoutes.forgetPasswordRouteName: (context) => const ForgetPassword(),
+        AppRoutes.resetPasswordRouteName: (context) => const ResetPassword(),
+        AppRoutes.changePasswordRouteName: (context) => const PasswordChange(),
       },
     );
   }

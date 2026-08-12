@@ -100,7 +100,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       mainAxisAlignment: .center,
                       children: [
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            // todo: navigate to forget password
+                            Navigator.of(context).pushNamed(AppRoutes.forgetPasswordRouteName);
+                          },
                           child: Text(
                             'هل نسيت كلمه المرور؟',
                             style: AppStyle.medium16secondaryGrey
