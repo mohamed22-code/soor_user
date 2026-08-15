@@ -113,7 +113,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     SizedBox(height: height * 0.02),
                     CustomElevatedButton(
+                      widthPadding: width*0.02,
                       mainAxisAlignment: MainAxisAlignment.center,
+
                       onPressed: login,
                       text: 'تسجيل الدخول',
                       textStyle: AppStyle.bold20white,

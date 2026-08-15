@@ -26,7 +26,8 @@ class PasswordChange extends StatelessWidget {
               Spacer(),
               SizedBox(
                 width: double.infinity,
-                child: CustomElevatedButton(onPressed: () {
+                child: CustomElevatedButton(
+                  onPressed: () {
                   Navigator.of(context).pushNamed(AppRoutes.homeRouteName);
                 },
                 text: 'تسجيل الدخول',

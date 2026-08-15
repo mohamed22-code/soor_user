@@ -73,6 +73,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
               )),
               SizedBox(height: height*0.02,),
               CustomElevatedButton(
+                widthPadding: 40,
                 mainAxisAlignment: MainAxisAlignment.center,
                 onPressed: verification,
                 text: 'ارسال',

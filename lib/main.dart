@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.light,
       theme: AppTheme.lightTheme,
       // home: const LoginScreen(),
-      initialRoute: AppRoutes.forgetPasswordRouteName,
+      initialRoute: AppRoutes.homeRouteName,
       routes: {
         AppRoutes.loginRouteName: (context) => const LoginScreen(),
         AppRoutes.registerRouteName: (context) => const RegisterScreen(),

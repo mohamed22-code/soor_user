@@ -9,4 +9,6 @@ class AppColors {
   static const Color whiteBgColor = Color(0xffF2FEFF);
   static const Color primaryDark = Color(0xff101127);
   static const Color borderSideColor = Color(0xff2E2E2E);
+  static const Color primary600 = Color(0xff007AA2);
+  static const Color sucessColor = Color(0xff039855);
 }

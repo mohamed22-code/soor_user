@@ -81,6 +81,11 @@ class AppStyle {
       fontWeight: FontWeight.w500,
       color: AppColors.primaryLight
   );
+  static const TextStyle bold16primary = TextStyle(
+      fontSize: 16,
+      fontWeight: FontWeight.bold,
+      color: AppColors.primaryText
+  );
   static const TextStyle medium16primary = TextStyle(
       fontSize: 16,
       fontWeight: FontWeight.w500,
@@ -95,11 +100,6 @@ class AppStyle {
       fontSize: 16,
       fontWeight: FontWeight.bold,
       color: AppColors.primaryDark
-  );
-  static const TextStyle bold16primary = TextStyle(
-      fontSize: 16,
-      fontWeight: FontWeight.bold,
-      color: AppColors.primaryLight
   );
   static const TextStyle bold20primary = TextStyle(
       fontSize: 20,

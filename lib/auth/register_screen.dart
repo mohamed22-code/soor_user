@@ -134,6 +134,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       SizedBox(height: height * 0.02),
                       CustomElevatedButton(
+                        widthPadding: width*0.02,
                         mainAxisAlignment: MainAxisAlignment.center,
                         onPressed: register,
                         text: 'تسجيل حساب',

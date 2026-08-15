@@ -19,6 +19,7 @@ class AppTheme {
 
         ),
       ),
+
       textTheme: TextTheme(
           headlineLarge: AppStyle.bold20black,
           headlineMedium: AppStyle.medium16primary,
@@ -27,10 +28,11 @@ class AppTheme {
           titleSmall: AppStyle.medium16black,
           bodyLarge: AppStyle.medium16grey
       ),
+
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
-        backgroundColor: AppColors.primaryLight,
+        backgroundColor: AppColors.appBarColor,
         type: BottomNavigationBarType.fixed,
-        selectedItemColor: Colors.white,
+        selectedItemColor: AppColors.secondaryDark,
         unselectedItemColor: Colors.white,
         selectedLabelStyle: AppStyle.bold12white,
         unselectedLabelStyle: AppStyle.bold12white,

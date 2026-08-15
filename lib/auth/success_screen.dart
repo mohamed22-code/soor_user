@@ -29,6 +29,7 @@ class SuccessScreen extends StatelessWidget {
                 child: CustomElevatedButton(onPressed: () {
                   Navigator.of(context).pushNamed(AppRoutes.homeRouteName);
                 },
+                  widthPadding: 40,
                 text: 'الي الرئيسيه',
                 ),
               ),

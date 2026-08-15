@@ -6,17 +6,20 @@ import '../utils/app_style.dart';
 class CustomElevatedButton extends StatelessWidget {
   final VoidCallback onPressed;
   final String? text;
-  final Color? backgroundColor;
+
   final Color? borderColor;
   final TextStyle? textStyle;
   final bool hasIcon;
+  final backgroundColor;
   final Widget? iconWidget;
   final Widget? childIconWidget;
+  final double widthPadding;
+  final double radius;
   final MainAxisAlignment? mainAxisAlignment;
-  const CustomElevatedButton({super.key, required this.onPressed, this.text,
-  this.backgroundColor = AppColors.secondaryDark, this.borderColor = Colors.transparent,
+   CustomElevatedButton({super.key, required this.onPressed, this.text,
+   this.borderColor = Colors.transparent, this.backgroundColor = AppColors.secondaryDark,
     this.textStyle, this.hasIcon = false, this.iconWidget,this.mainAxisAlignment,
-    this.childIconWidget
+    this.childIconWidget, this.widthPadding = 20, this.radius = 8
 
   });
   @override
@@ -27,9 +30,9 @@ class CustomElevatedButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         elevation: 0,
         backgroundColor: backgroundColor,
-        padding: EdgeInsets.symmetric(vertical: height*0.01),
+        padding: EdgeInsets.symmetric(vertical: height*0.01, horizontal: widthPadding),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(radius),
           side: BorderSide(
             width: 2,
             color: borderColor!
