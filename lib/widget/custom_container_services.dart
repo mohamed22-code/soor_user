@@ -6,9 +6,10 @@ class CustomContainerServices extends StatelessWidget {
   final Color color;
   final Widget icon;
   final String text;
+  final double radius;
   // final VoidCallback onTap;
   const CustomContainerServices({super.key, required this.color,
-    required this.icon, required this.text});
+    required this.icon, required this.text, this.radius = 360});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,7 @@ class CustomContainerServices extends StatelessWidget {
       height: height*0.14,
       decoration: BoxDecoration(
         color: color,
-        borderRadius: .circular(360),
+        borderRadius: .circular(radius),
       ),
       child: Column(
         mainAxisAlignment: .center,

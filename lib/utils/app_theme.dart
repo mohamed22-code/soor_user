@@ -11,7 +11,7 @@ class AppTheme {
       splashColor: Colors.grey,
       cardColor: Colors.black,
       primaryColor: AppColors.primaryLight,
-      scaffoldBackgroundColor: AppColors.whiteBgColor,
+      scaffoldBackgroundColor: Colors.black,
       appBarTheme: AppBarTheme(
         backgroundColor: AppColors.appBarColor,
         iconTheme: IconThemeData(
