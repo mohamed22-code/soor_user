@@ -15,7 +15,7 @@ class AppStyle {
   );
   static const TextStyle medium16white = TextStyle(
       fontSize: 16,
-      fontWeight: FontWeight.w500,
+      fontWeight: FontWeight.w600,
       color: Colors.white
   );
   static const TextStyle medium16secondaryGrey = TextStyle(

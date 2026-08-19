@@ -64,7 +64,12 @@ class HomeTab extends StatelessWidget {
               SizedBox(height: height*0.02,),
               Text('الحجز الحالي', style: AppStyle.bold24white,),
               SizedBox(height: height*0.02,),
-              CustomContainerBooking(),
+              CustomContainerBooking(
+                bookingNumber: '#12336455',
+                price: '1600 ريال',
+                status: 'منتهي',
+                date: 'اليوم 8:00 م الى 11:00 م',
+              ),
 
               Text('اراء عملائنا', style: AppStyle.bold24white,),
 

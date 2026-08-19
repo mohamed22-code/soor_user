@@ -4,6 +4,7 @@ import 'package:soor_user_app/auth/forget_password/password_change.dart';
 import 'package:soor_user_app/auth/forget_password/reset_password.dart';
 import 'package:soor_user_app/auth/forget_password/verification_screen.dart';
 import 'package:soor_user_app/auth/login_screen.dart';
+import 'package:soor_user_app/home/booking_details/booking_details_screen.dart';
 import 'package:soor_user_app/home/chat/call_screen.dart';
 import 'package:soor_user_app/home/chat/chat_screen.dart';
 import 'package:soor_user_app/home/chat/notification_screen.dart';
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
       supportedLocales: AppLocalizations.supportedLocales,
       themeMode: ThemeMode.light,
       theme: AppTheme.lightTheme,
-      home: NotificationScreen(),
+      home: BookingDetailsScreen(),
       // initialRoute: AppRoutes.chatRouteName,
       // routes: {
       //   AppRoutes.loginRouteName: (context) => const LoginScreen(),

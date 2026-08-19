@@ -15,4 +15,5 @@ static const String soorChatImage = 'assets/images/soor_chat.png';
   static const String soorCallImage = 'assets/images/soor_call.png';
   static const String soorNotificationImage =
       'assets/images/soor_notification.png';
+  static const String bookingCommentImage = 'assets/images/booking_comment.png';
 }

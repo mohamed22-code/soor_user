@@ -5,7 +5,20 @@ import '../utils/app_style.dart';
 import 'custom_elevated_button.dart';
 
 class CustomContainerBooking extends StatelessWidget {
-  const CustomContainerBooking({super.key});
+  final String bookingNumber;
+  final String price;
+  final String date;
+  final String status;
+  final Color? color;
+  final VoidCallback? onAddReview;
+
+  const CustomContainerBooking({super.key,
+    required this.bookingNumber,
+    required this.price,
+    required this.date,
+    required this.status,
+    this.color,
+    this.onAddReview,});
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +30,7 @@ class CustomContainerBooking extends StatelessWidget {
         .of(context)
         .size
         .height;
+    final bool isFinished = status == 'منتهي';
     return Container(
       width: width * 0.92,
       height: height * 0.16,
@@ -31,9 +45,17 @@ class CustomContainerBooking extends StatelessWidget {
             Column(
               mainAxisAlignment: .spaceAround,
               children: [
-                Text('#12336455', style: AppStyle.bold16white,),
-                Text('1600 ريال', style: AppStyle.bold16primary,),
-                Text('اضافه تقييم >', style: AppStyle.bold16primary,),
+                Text(bookingNumber, style: AppStyle.bold16white,),
+                Text(price, style: AppStyle.bold16primary,),
+                isFinished ? InkWell(
+                  onTap: onAddReview,
+                  child: Text('اضافه تقييم >', style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: Color(0xff2D9EC4)
+                  ),),
+                ) : SizedBox(),
+
               ],
             ),
             Spacer(),
@@ -43,11 +65,13 @@ class CustomContainerBooking extends StatelessWidget {
 
                   onPressed: () {
 
-                  }, text: 'منتهي', backgroundColor: AppColors.sucessColor,
+                  },
+                  text: status,
+                  backgroundColor: color ?? AppColors.sucessColor,
                   radius: 360,
 
                 ),
-                Text('اليوم 8:00 م الى 11:00 م',
+                Text(date,
                   style: AppStyle.medium16darkGrey,),
               ],
             ),
