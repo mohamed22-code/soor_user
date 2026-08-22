@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:soor_user_app/auth/forget_password/forget_password.dart';
-import 'package:soor_user_app/auth/forget_password/password_change.dart';
-import 'package:soor_user_app/auth/forget_password/reset_password.dart';
-import 'package:soor_user_app/auth/forget_password/verification_screen.dart';
-import 'package:soor_user_app/auth/login_screen.dart';
-import 'package:soor_user_app/home/booking_details/booking_details_screen.dart';
-import 'package:soor_user_app/home/chat/call_screen.dart';
-import 'package:soor_user_app/home/chat/chat_screen.dart';
-import 'package:soor_user_app/home/chat/notification_screen.dart';
-import 'package:soor_user_app/home/home_screen.dart';
-import 'package:soor_user_app/utils/app_routes.dart';
-import 'package:soor_user_app/utils/app_theme.dart';
 
-import 'auth/register_screen.dart';
-import 'auth/success_screen.dart';
+import 'core/utils/app_routes.dart';
+import 'core/utils/app_theme.dart';
+import 'features/auth/forget_password/forget_password.dart';
+import 'features/auth/forget_password/password_change.dart';
+import 'features/auth/forget_password/reset_password.dart';
+import 'features/auth/forget_password/verification_screen.dart';
+import 'features/auth/login_screen.dart';
+import 'features/auth/register_screen.dart';
+import 'features/auth/success_screen.dart';
+import 'features/home/chat/chat_screen.dart';
+import 'features/home/home_screen.dart';
 import 'l10n/app_localizations.dart';
 
 void main() {
@@ -34,19 +31,19 @@ class MyApp extends StatelessWidget {
       supportedLocales: AppLocalizations.supportedLocales,
       themeMode: ThemeMode.light,
       theme: AppTheme.lightTheme,
-      home: BookingDetailsScreen(),
-      // initialRoute: AppRoutes.chatRouteName,
-      // routes: {
-      //   AppRoutes.loginRouteName: (context) => const LoginScreen(),
-      //   AppRoutes.registerRouteName: (context) => const RegisterScreen(),
-      //   AppRoutes.homeRouteName: (context) => const HomeScreen(),
-      //   AppRoutes.successRouteName: (context) => const SuccessScreen(),
-      //   AppRoutes.forgetPasswordRouteName: (context) => const ForgetPassword(),
-      //   AppRoutes.resetPasswordRouteName: (context) => const ResetPassword(),
-      //   AppRoutes.changePasswordRouteName: (context) => const PasswordChange(),
-      //   AppRoutes.verificationPasswordRouteName: (context) =>  VerificationScreen(),
-      //   AppRoutes.chatRouteName: (context) =>  ChatScreen(),
-      // },
+      initialRoute: AppRoutes.chatRouteName,
+      routes: {
+        AppRoutes.loginRouteName: (context) => const LoginScreen(),
+        AppRoutes.registerRouteName: (context) => const RegisterScreen(),
+        AppRoutes.homeRouteName: (context) => const HomeScreen(),
+        AppRoutes.successRouteName: (context) => const SuccessScreen(),
+        AppRoutes.forgetPasswordRouteName: (context) => const ForgetPassword(),
+        AppRoutes.resetPasswordRouteName: (context) => const ResetPassword(),
+        AppRoutes.changePasswordRouteName: (context) => const PasswordChange(),
+        AppRoutes.verificationPasswordRouteName: (context) =>
+            VerificationScreen(),
+        AppRoutes.chatRouteName: (context) => ChatScreen(),
+      },
     );
   }
 }
