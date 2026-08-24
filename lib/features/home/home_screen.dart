@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:soor_user_app/features/home/tabs/booking_tab.dart';
 import 'package:soor_user_app/features/home/tabs/home_tab.dart';
 import 'package:soor_user_app/features/home/tabs/more/more_tab.dart';
-import 'package:soor_user_app/features/home/tabs/services_tab.dart';
+import 'package:soor_user_app/features/home/tabs/service/services_tab.dart';
 
 import '../../core/utils/app_assets.dart';
 

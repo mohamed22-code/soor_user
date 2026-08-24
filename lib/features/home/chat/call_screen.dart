@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/utils/app_assets.dart';
-import '../../../core/utils/app_colors.dart';
+import '../../../core/themes/colors/app_colors.dart';
 
 class CallScreen extends StatelessWidget {
   const CallScreen({super.key});

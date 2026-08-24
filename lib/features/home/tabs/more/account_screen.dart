@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:soor_user_app/features/home/tabs/more/widget/custom_profile_text_field.dart';
-import '../../../../core/utils/app_style.dart';
+import '../../../../core/themes/styles/app_style.dart';
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({super.key});

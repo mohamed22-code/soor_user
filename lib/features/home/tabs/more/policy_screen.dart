@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/utils/app_style.dart';
+import '../../../../core/themes/styles/app_style.dart';
 
 class PolicyScreen extends StatelessWidget {
   const PolicyScreen({super.key});

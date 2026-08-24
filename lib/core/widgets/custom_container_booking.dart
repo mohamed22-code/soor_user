@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../utils/app_colors.dart';
-import '../utils/app_style.dart';
+import '../themes/colors/app_colors.dart';
+import '../themes/styles/app_style.dart';
 import 'custom_elevated_button.dart';
 
 class CustomContainerBooking extends StatelessWidget {

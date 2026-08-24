@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../utils/app_assets.dart';
-import '../utils/app_colors.dart';
-import '../utils/app_style.dart';
+import '../themes/colors/app_colors.dart';
+import '../themes/styles/app_style.dart';
 
 class CustomAccountContainer extends StatelessWidget {
   const CustomAccountContainer({super.key});

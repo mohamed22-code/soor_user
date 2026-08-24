@@ -15,3 +15,10 @@ class AppColors {
   static const Color describtionColor = Color(0xffBABABA);
   static const Color accountColor = Color(0xff00394C);
 }
+
+/*
+import 'dart:ui';
+
+class AppColors {
+}
+ */

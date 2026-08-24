@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:soor_user_app/features/home/booking_details/booking_details_screen.dart';
+import 'package:soor_user_app/features/home/tabs/service/google_map/google_maps_screen.dart';
 
-import 'core/utils/app_routes.dart';
-import 'core/utils/app_theme.dart';
+import 'core/routes/app_routes.dart';
+import 'core/themes/theme/app_theme.dart';
 import 'features/auth/forget_password/forget_password.dart';
 import 'features/auth/forget_password/password_change.dart';
 import 'features/auth/forget_password/reset_password.dart';
@@ -31,19 +33,20 @@ class MyApp extends StatelessWidget {
       supportedLocales: AppLocalizations.supportedLocales,
       themeMode: ThemeMode.light,
       theme: AppTheme.lightTheme,
-      initialRoute: AppRoutes.chatRouteName,
-      routes: {
-        AppRoutes.loginRouteName: (context) => const LoginScreen(),
-        AppRoutes.registerRouteName: (context) => const RegisterScreen(),
-        AppRoutes.homeRouteName: (context) => const HomeScreen(),
-        AppRoutes.successRouteName: (context) => const SuccessScreen(),
-        AppRoutes.forgetPasswordRouteName: (context) => const ForgetPassword(),
-        AppRoutes.resetPasswordRouteName: (context) => const ResetPassword(),
-        AppRoutes.changePasswordRouteName: (context) => const PasswordChange(),
-        AppRoutes.verificationPasswordRouteName: (context) =>
-            VerificationScreen(),
-        AppRoutes.chatRouteName: (context) => ChatScreen(),
-      },
+      home: GoogleMapsScreen(),
+      // initialRoute: AppRoutes.homeRouteName,
+      // routes: {
+      //   AppRoutes.loginRouteName: (context) => const LoginScreen(),
+      //   AppRoutes.registerRouteName: (context) => const RegisterScreen(),
+      //   AppRoutes.homeRouteName: (context) => const HomeScreen(),
+      //   AppRoutes.successRouteName: (context) => const SuccessScreen(),
+      //   AppRoutes.forgetPasswordRouteName: (context) => const ForgetPassword(),
+      //   AppRoutes.resetPasswordRouteName: (context) => const ResetPassword(),
+      //   AppRoutes.changePasswordRouteName: (context) => const PasswordChange(),
+      //   AppRoutes.verificationPasswordRouteName: (context) =>
+      //       VerificationScreen(),
+      //   AppRoutes.chatRouteName: (context) => ChatScreen(),
+      // },
     );
   }
 }

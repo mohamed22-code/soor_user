@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:soor_user_app/features/home/tabs/more/policy_screen.dart';
 
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/app_style.dart';
-import '../../../../core/widget/custom_account_container.dart';
-import '../../../../core/widget/setting_item_container.dart';
+import '../../../../core/themes/colors/app_colors.dart';
+import '../../../../core/themes/styles/app_style.dart';
+
+import '../../../../core/widgets/custom_account_container.dart';
+import '../../../../core/widgets/setting_item_container.dart';
 import 'account_screen.dart';
 import 'all_chat_screen.dart';
 

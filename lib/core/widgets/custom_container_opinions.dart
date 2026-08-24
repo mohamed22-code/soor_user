@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../utils/app_colors.dart';
-import '../utils/app_style.dart';
+import '../themes/colors/app_colors.dart';
+import '../themes/styles/app_style.dart';
 
 class CustomContainerOpinions extends StatelessWidget {
   const CustomContainerOpinions({super.key});

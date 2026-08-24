@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../utils/app_style.dart';
+import '../themes/styles/app_style.dart';
 
 class CustomContainerServices extends StatelessWidget {
   final Color color;

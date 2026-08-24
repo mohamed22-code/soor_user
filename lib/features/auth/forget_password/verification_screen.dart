@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 
-import '../../../core/utils/app_colors.dart';
-import '../../../core/utils/app_routes.dart';
-import '../../../core/utils/app_style.dart';
-import '../../../core/widget/custom_elevated_button.dart';
+import '../../../core/themes/colors/app_colors.dart';
+import '../../../core/routes/app_routes.dart';
+import '../../../core/themes/styles/app_style.dart';
+import '../../../core/widgets/custom_elevated_button.dart';
 
 class VerificationScreen extends StatefulWidget {
   VerificationScreen({super.key});

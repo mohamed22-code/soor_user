@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../../core/utils/app_assets.dart';
-import '../../core/utils/app_routes.dart';
-import '../../core/utils/app_style.dart';
-import '../../core/widget/custom_elevated_button.dart';
+import '../../core/routes/app_routes.dart';
+import '../../core/themes/styles/app_style.dart';
+import '../../core/widgets/custom_elevated_button.dart';
 
 
 class SuccessScreen extends StatelessWidget {

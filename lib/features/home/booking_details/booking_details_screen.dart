@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/utils/app_assets.dart';
-import '../../../core/utils/app_colors.dart';
-import '../../../core/utils/app_style.dart';
-import '../../../core/widget/add_time_bottom_sheet.dart';
-import '../../../core/widget/custom_elevated_button.dart';
+import '../../../core/themes/colors/app_colors.dart';
+import '../../../core/themes/styles/app_style.dart';
+import '../../../core/widgets/add_time_bottom_sheet.dart';
+import '../../../core/widgets/custom_elevated_button.dart';
 
 class BookingDetailsScreen extends StatefulWidget {
   const BookingDetailsScreen({super.key});

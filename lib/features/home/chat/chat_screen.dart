@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/model/chat_message.dart';
+import '../../../core/models/chat_message.dart';
 import '../../../core/utils/app_assets.dart';
-import '../../../core/widget/chat_input.dart';
-import '../../../core/widget/custom_chat_bubble.dart';
+import '../../../core/widgets/chat_input.dart';
+import '../../../core/widgets/custom_chat_bubble.dart';
 
 class ChatScreen extends StatefulWidget {
   ChatScreen({super.key});

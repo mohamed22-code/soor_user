@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:soor_user_app/features/home/tabs/more/widget/service_order_item.dart';
 
-import '../../../../core/utils/app_style.dart';
+import '../../../../core/themes/styles/app_style.dart';
 
 class AllChatScreen extends StatelessWidget {
   const AllChatScreen({super.key});

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../core/utils/app_colors.dart';
-import '../../../../../core/utils/app_style.dart';
+import '../../../../../core/themes/colors/app_colors.dart';
+import '../../../../../core/themes/styles/app_style.dart';
 
 class CustomProfileTextField extends StatelessWidget {
   final String label;
