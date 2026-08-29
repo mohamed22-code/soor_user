@@ -33,20 +33,19 @@ class MyApp extends StatelessWidget {
       supportedLocales: AppLocalizations.supportedLocales,
       themeMode: ThemeMode.light,
       theme: AppTheme.lightTheme,
-      home: GoogleMapsScreen(),
-      // initialRoute: AppRoutes.homeRouteName,
-      // routes: {
-      //   AppRoutes.loginRouteName: (context) => const LoginScreen(),
-      //   AppRoutes.registerRouteName: (context) => const RegisterScreen(),
-      //   AppRoutes.homeRouteName: (context) => const HomeScreen(),
-      //   AppRoutes.successRouteName: (context) => const SuccessScreen(),
-      //   AppRoutes.forgetPasswordRouteName: (context) => const ForgetPassword(),
-      //   AppRoutes.resetPasswordRouteName: (context) => const ResetPassword(),
-      //   AppRoutes.changePasswordRouteName: (context) => const PasswordChange(),
-      //   AppRoutes.verificationPasswordRouteName: (context) =>
-      //       VerificationScreen(),
-      //   AppRoutes.chatRouteName: (context) => ChatScreen(),
-      // },
+      home: const LoginScreen(),
+      routes: {
+        AppRoutes.loginRouteName: (context) => const LoginScreen(),
+        AppRoutes.registerRouteName: (context) => const RegisterScreen(),
+        AppRoutes.homeRouteName: (context) => const HomeScreen(),
+        AppRoutes.successRouteName: (context) => const SuccessScreen(),
+        AppRoutes.forgetPasswordRouteName: (context) => const ForgetPassword(),
+        AppRoutes.resetPasswordRouteName: (context) => const ResetPassword(),
+        AppRoutes.changePasswordRouteName: (context) => const PasswordChange(),
+        AppRoutes.verificationPasswordRouteName: (context) =>
+            const VerificationScreen(),
+        AppRoutes.chatRouteName: (context) => ChatScreen(),
+      },
     );
   }
 }
