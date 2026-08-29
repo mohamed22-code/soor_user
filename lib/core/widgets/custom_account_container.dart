@@ -5,7 +5,10 @@ import '../themes/colors/app_colors.dart';
 import '../themes/styles/app_style.dart';
 
 class CustomAccountContainer extends StatelessWidget {
-  const CustomAccountContainer({super.key});
+  final String? name;
+  final String? phone;
+
+  const CustomAccountContainer({super.key, this.name, this.phone});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +19,6 @@ class CustomAccountContainer extends StatelessWidget {
         horizontal: width * 0.04,
         vertical: height * 0.01,
       ),
-
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         color: AppColors.accountColor,
@@ -28,14 +30,15 @@ class CustomAccountContainer extends StatelessWidget {
           Image.asset(AppAssets.avatarChatImage),
           SizedBox(width: width * 0.01),
           Column(
-            mainAxisAlignment: .spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Text('كريم خليل السيد', style: AppStyle.bold16white),
-              Text('+9054545656', style: AppStyle.medium14darkGrey),
+              Text(name ?? 'كريم خليل السيد', style: AppStyle.bold16white),
+              Text(phone ?? '+9054545656', style: AppStyle.medium14darkGrey),
             ],
           ),
-          Spacer(),
-          Icon(Icons.edit, color: Colors.white, size: 20),
+          const Spacer(),
+          const Icon(Icons.edit, color: Colors.white, size: 20),
         ],
       ),
     );

@@ -32,7 +32,6 @@ class DioApiManager {
           if (token != null && token.isNotEmpty) {
             options.headers['Authorization'] = '$tokenType $token';
           }
-          // lang header auto (default ar)
           options.headers['lang'] ??= 'ar';
           return handler.next(options);
         },
