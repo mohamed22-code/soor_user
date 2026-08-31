@@ -13,19 +13,19 @@ class DateTimePickerBottomSheet extends StatefulWidget {
 class _DateTimePickerBottomSheetState extends State<DateTimePickerBottomSheet> {
   DateTime selectedDate = DateTime.now();
 
-  String selectedTime = '11:11م';
+  String selectedTime = '11:00م';
 
   bool isSelectingTime = false;
 
   final List<String> times = [
-    '11:11م',
-    '11:21م',
-    '11:31م',
-    '11:41م',
-    '11:51م',
-    '12:01ص',
-    '12:11ص',
-    '12:21ص',
+    '9:100ص',
+    '10:00ص',
+    '11:00ص',
+    '12:00م',
+    '1:00م',
+    '2:00م',
+    '3:00م',
+    '4:00م',
   ];
 
   @override
@@ -40,10 +40,6 @@ class _DateTimePickerBottomSheetState extends State<DateTimePickerBottomSheet> {
       child: isSelectingTime ? _buildTimePicker() : _buildDatePicker(),
     );
   }
-
-  // =========================
-  // DATE
-  // =========================
 
   Widget _buildDatePicker() {
     return Column(
@@ -68,10 +64,11 @@ class _DateTimePickerBottomSheetState extends State<DateTimePickerBottomSheet> {
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           child: Row(
             children: [
-              _monthButton(icon: Icons.chevron_left, onTap: () {}),
-
+              _monthButton(
+                icon: Icons.chevron_left,
+                onTap: () => _changeMonth(-1),
+              ),
               const Spacer(),
-
               Text(
                 '${_monthName(selectedDate.month)} ${selectedDate.year}',
                 style: const TextStyle(
@@ -80,10 +77,11 @@ class _DateTimePickerBottomSheetState extends State<DateTimePickerBottomSheet> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-
               const Spacer(),
-
-              _monthButton(icon: Icons.chevron_right, onTap: () {}),
+              _monthButton(
+                icon: Icons.chevron_right,
+                onTap: () => _changeMonth(1),
+              ),
             ],
           ),
         ),
@@ -105,10 +103,7 @@ class _DateTimePickerBottomSheetState extends State<DateTimePickerBottomSheet> {
         ),
 
         const SizedBox(height: 8),
-
         Expanded(child: _buildCalendar()),
-
-        // التالي
         Padding(
           padding: const EdgeInsets.all(12),
           child: SizedBox(
@@ -137,15 +132,10 @@ class _DateTimePickerBottomSheetState extends State<DateTimePickerBottomSheet> {
     );
   }
 
-  // =========================
-  // TIME
-  // =========================
-
   Widget _buildTimePicker() {
     return Column(
       children: [
         _buildHandle(),
-
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           child: Row(
@@ -171,7 +161,6 @@ class _DateTimePickerBottomSheetState extends State<DateTimePickerBottomSheet> {
 
         const SizedBox(height: 5),
 
-        // Time Chips
         Expanded(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -228,7 +217,6 @@ class _DateTimePickerBottomSheetState extends State<DateTimePickerBottomSheet> {
           ),
         ),
 
-        // Buttons
         Padding(
           padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
           child: Row(
@@ -277,10 +265,6 @@ class _DateTimePickerBottomSheetState extends State<DateTimePickerBottomSheet> {
       ],
     );
   }
-
-  // =========================
-  // CALENDAR
-  // =========================
 
   Widget _buildCalendar() {
     final firstDay = DateTime(selectedDate.year, selectedDate.month, 1);
@@ -340,10 +324,6 @@ class _DateTimePickerBottomSheetState extends State<DateTimePickerBottomSheet> {
     );
   }
 
-  // =========================
-  // HELPERS
-  // =========================
-
   Widget _buildHandle() {
     return Container(
       margin: const EdgeInsets.only(top: 6),
@@ -369,6 +349,16 @@ class _DateTimePickerBottomSheetState extends State<DateTimePickerBottomSheet> {
         child: Icon(icon, color: Colors.white, size: 16),
       ),
     );
+  }
+
+  void _changeMonth(int delta) {
+    final newDate = DateTime(selectedDate.year, selectedDate.month + delta, 1);
+    final now = DateTime.now();
+    final firstAllowed = DateTime(now.year, now.month, 1);
+    if (newDate.isBefore(firstAllowed)) return;
+    setState(() {
+      selectedDate = newDate;
+    });
   }
 
   String _monthName(int month) {
