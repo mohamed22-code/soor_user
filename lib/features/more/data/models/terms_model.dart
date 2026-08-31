@@ -42,7 +42,6 @@ class TermsResponse {
               .toList(),
         );
       } else if (rawData is Map<String, dynamic>) {
-        // could be {data:{content:...}} or paginated
         if (rawData['data'] is List) {
           return TermsResponse(
             status: json['status'] as bool?,
