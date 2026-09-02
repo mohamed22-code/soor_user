@@ -9,6 +9,7 @@ import '../../../core/widgets/custom_elevated_button.dart';
 import '../../bookings/data/models/booking_model.dart';
 import '../../bookings/presentation/cubit/bookings_cubit.dart';
 import '../../bookings/presentation/cubit/bookings_state.dart';
+import '../chat/chat_screen.dart';
 
 class BookingDetailsScreen extends StatefulWidget {
   final BookingModel? booking;
@@ -69,7 +70,26 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                 _b.bookingNumber ?? '#---', style: AppStyle.bold16white),
             centerTitle: true,
             actions: [
-              Image.asset(AppAssets.bookingCommentImage),
+              InkWell(
+                onTap: () {
+                  final b = _b;
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) =>
+                          ChatScreen(
+                            roomId: b.id ?? 1,
+                            bookingId: b.id ?? 1,
+                          ),
+                    ),
+                  );
+                },
+                borderRadius: BorderRadius.circular(8),
+                child: Padding(
+                  padding: const EdgeInsets.all(6),
+                  child: Image.asset(AppAssets.bookingCommentImage),
+                ),
+              ),
               const SizedBox(width: 10)
             ],
           ),

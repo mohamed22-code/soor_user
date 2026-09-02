@@ -13,6 +13,7 @@ class BookingModel {
   final String? paymentMethod;
   final String? serviceName;
   final int? serviceId;
+  final int? guardId;
   final bool? canRate;
 
   BookingModel({
@@ -30,6 +31,7 @@ class BookingModel {
     this.paymentMethod,
     this.serviceName,
     this.serviceId,
+    this.guardId,
     this.canRate,
   });
 
@@ -93,6 +95,12 @@ class BookingModel {
       serviceId: json['service_id'] is int
           ? json['service_id']
           : int.tryParse(json['service_id']?.toString() ?? ''),
+      guardId: json['guard_id'] is int
+          ? json['guard_id']
+          : int.tryParse(json['guard_id']?.toString() ?? '') ??
+                (json['guard'] is Map
+                    ? int.tryParse(json['guard']['id']?.toString() ?? '')
+                    : null),
       canRate: json['can_rate'] as bool? ?? (arabicStatus == 'منتهي'),
     );
   }
