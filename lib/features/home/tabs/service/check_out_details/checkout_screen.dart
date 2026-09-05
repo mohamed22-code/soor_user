@@ -27,6 +27,21 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   double lat = 24.7136;
   double lng = 46.6753;
 
+  @override
+  void initState() {
+    super.initState();
+    final d = widget.draft;
+    if (d != null) {
+      if (d['address'] != null) {
+        selectedAddress = d['address'].toString();
+      } else if (d['address_details'] != null) {
+        selectedAddress = d['address_details'].toString();
+      }
+      if (d['lat'] != null) lat = double.tryParse(d['lat'].toString()) ?? lat;
+      if (d['long'] != null) lng = double.tryParse(d['long'].toString()) ?? lng;
+    }
+  }
+
   String get paymentMethod {
     switch (selectedPayment) {
       case 0:
@@ -91,11 +106,31 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         child: Row(children: [
                           TextButton.icon(
                             onPressed: () async {
-                              final res = await Navigator.push(context,
-                                  MaterialPageRoute(builder: (
-                                      _) => const GoogleMapsScreen()));
-                              if (res is String) setState(() =>
-                              selectedAddress = res);
+                              final res = await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) =>
+                                      const GoogleMapsScreen()));
+                              if (res is Map<String, dynamic>) {
+                                setState(() {
+                                  selectedAddress = res['address_details']
+                                      ?.toString() ??
+                                      res['address']?.toString() ??
+                                      selectedAddress;
+                                  if (res['lat'] != null) {
+                                    lat = double.tryParse(
+                                        res['lat'].toString()) ??
+                                        lat;
+                                  }
+                                  if (res['long'] != null) {
+                                    lng = double.tryParse(
+                                        res['long'].toString()) ??
+                                        lng;
+                                  }
+                                });
+                              } else if (res is String) {
+                                setState(() => selectedAddress = res);
+                              }
                             },
                             icon: const Icon(Icons.edit, size: 20,
                                 color: AppColors.describtionColor),
@@ -159,15 +194,23 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                               }
                               final req = BookingRequest(
                                 serviceId: draft['service_id'].toString(),
-                                lat: lat.toString(),
-                                long: lng.toString(),
-                                areaName: 'Al Olaya',
-                                buildingName: 'Tower 1',
-                                floor: '5',
-                                addressDetails: selectedAddress,
-                                city: 'Riyadh',
-                                region: 'Saudi Arabia',
-                                street: 'King Fahd Road',
+                                lat: draft['lat']?.toString() ?? lat.toString(),
+                                long:
+                                draft['long']?.toString() ?? lng.toString(),
+                                areaName: draft['area_name']?.toString() ??
+                                    'Al Olaya',
+                                buildingName: draft['building_name']
+                                    ?.toString() ??
+                                    'Tower 1',
+                                floor: draft['floor']?.toString() ?? '5',
+                                addressDetails: draft['address_details']
+                                    ?.toString() ??
+                                    selectedAddress,
+                                city: draft['city']?.toString() ?? 'Riyadh',
+                                region: draft['region']?.toString() ??
+                                    'Saudi Arabia',
+                                street:
+                                draft['street']?.toString() ?? 'King Fahd Road',
                                 startDatetime: draft['start_datetime']
                                     .toString(),
                                 durationHours: draft['duration_hours']

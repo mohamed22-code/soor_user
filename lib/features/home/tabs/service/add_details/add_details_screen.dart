@@ -6,6 +6,7 @@ import 'package:soor_user_app/features/home/tabs/service/add_details/section_tit
 import 'package:soor_user_app/features/home/tabs/service/check_out_details/checkout_screen.dart';
 import '../../../../services/presentation/cubit/services_cubit.dart';
 import '../../../../services/presentation/cubit/services_state.dart';
+import '../google_map/google_maps_screen.dart';
 import 'choice_button.dart';
 import 'counter.dart';
 import 'date_field.dart';
@@ -275,7 +276,7 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                     SizedBox(
                       height: 46,
                       child: ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async {
                           if (dateController.text
                               .trim()
                               .isEmpty) {
@@ -284,19 +285,28 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                                     'يرجى إدخال تاريخ الحجز بصيغة 2026-09-01 14:00:00')));
                             return;
                           }
-                          if (widget.serviceId == null) {
+                          final effectiveServiceId = widget.serviceId ?? '1';
+                          // افتح الخريطة أولاً لاختيار المكان قبل الدفع
+                          final location = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => const GoogleMapsScreen()),
+                          );
+                          if (location == null || location is! Map) {
+                            if (!context.mounted) return;
                             ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
-                                    content: Text('معرف الخدمة غير موجود')));
+                                    content: Text('يجب اختيار الموقع أولاً')));
                             return;
                           }
+                          if (!context.mounted) return;
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (_) =>
                                   CheckoutScreen(
                                     draft: {
-                                      'service_id': widget.serviceId!,
+                                      'service_id': effectiveServiceId,
                                       'service_name': widget.serviceName ?? '',
                                       'start_datetime': dateController.text
                                           .trim(),
@@ -315,6 +325,7 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                                       'additional_notes': notesController.text
                                           .trim(),
                                       'total_price': total.toStringAsFixed(0),
+                                      ...location as Map<String, dynamic>,
                                     },
                                   ),
                             ),

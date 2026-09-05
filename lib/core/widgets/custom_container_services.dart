@@ -7,21 +7,22 @@ class CustomContainerServices extends StatelessWidget {
   final Widget icon;
   final String text;
   final double radius;
+  final VoidCallback? onTap;
 
-  // final VoidCallback onTap;
   const CustomContainerServices({
     super.key,
     required this.color,
     required this.icon,
     required this.text,
     this.radius = 360,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
-    return Container(
+    final container = Container(
       width: width * 0.3,
       height: height * 0.14,
       decoration: BoxDecoration(color: color, borderRadius: .circular(radius)),
@@ -33,6 +34,12 @@ class CustomContainerServices extends StatelessWidget {
           Text(text, style: AppStyle.bold24white),
         ],
       ),
+    );
+    if (onTap == null) return container;
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(radius),
+      child: container,
     );
   }
 }

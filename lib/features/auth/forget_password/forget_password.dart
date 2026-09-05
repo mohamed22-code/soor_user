@@ -19,7 +19,7 @@ class ForgetPassword extends StatefulWidget {
 
 class _ForgetPasswordState extends State<ForgetPassword> {
   final formKey = GlobalKey<FormState>();
-  final phoneController = TextEditingController(text: '+966500000000');
+  final phoneController = TextEditingController();
 
   @override
   void dispose() {
@@ -27,23 +27,24 @@ class _ForgetPasswordState extends State<ForgetPassword> {
     super.dispose();
   }
 
-  bool _isSaudiPhone(String t) =>
-      RegExp(r'^(\+966|966|0)?5\d{8}$').hasMatch(t.trim());
+  bool _isValidPhone(String t) {
+    final v = t.trim().replaceAll(' ', '').replaceAll('-', '');
+    final isSaudi = RegExp(r'^(\+966|966|0)?5\d{8}$').hasMatch(v);
+    final isEgyptian = RegExp(r'^((\+20|0020)?1[0125]\d{8}|01[0125]\d{8})$')
+        .hasMatch(v);
+    return isSaudi || isEgyptian;
+  }
 
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
-    return BlocProvider(
-      create: (_) => AuthCubit(),
-      child: BlocConsumer<AuthCubit, AuthState>(
+    return BlocConsumer<AuthCubit, AuthState>(
         listener: (context, state) {
           if (state is AuthFailure) {
             ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text(state.error)));
           } else if (state is AuthForgetPasswordSuccess) {
-            ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(state.message)));
             Navigator.of(context).pushNamed(
                 AppRoutes.verificationPasswordRouteName,
                 arguments: state.phone);
@@ -81,8 +82,8 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                               if (text == null || text
                                   .trim()
                                   .isEmpty) return 'يرجى إدخال رقم الجوال';
-                              if (!_isSaudiPhone(text))
-                                return 'رقم جوال غير صحيح';
+                              if (!_isValidPhone(text))
+                                return 'رقم غير صحيح (سعودي +9665... أو مصري 010...)';
                               return null;
                             },
                           ),
@@ -106,7 +107,6 @@ class _ForgetPasswordState extends State<ForgetPassword> {
             ),
           );
         },
-      ),
     );
   }
 

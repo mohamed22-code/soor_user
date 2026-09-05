@@ -58,7 +58,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       keyboardType: widget.keyboardType,
       obscureText: isObscure,
       controller: widget.controller,
-      style: widget.textStyle ?? AppStyle.medium16darkGrey,
+      style: widget.textStyle ?? AppStyle.medium16white,
       decoration: InputDecoration(
         enabledBorder: builtDecorationBorder(
           borderSideColor: widget.borderSideColor,
@@ -70,7 +70,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         focusedErrorBorder: builtDecorationBorder(borderSideColor: Colors.red),
         hintText: widget.hintText,
         labelText: widget.labelText,
-        hintStyle: widget.hintStyle ?? AppStyle.bold16primary,
+        hintStyle: widget.hintStyle ?? AppStyle.medium16darkGrey,
         labelStyle: widget.labelStyle ?? AppStyle.medium16primary,
         prefixIcon: widget.prefixIcon,
         suffixIcon: widget.obscureText

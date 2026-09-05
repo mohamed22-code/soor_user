@@ -36,28 +36,30 @@ class HomeRepository {
     ({SlidersResponse? sliders, ServicesResponse? services, Failure? failure})
   >
   getHomeData({int perPage = 5}) async {
+    SlidersResponse? sliders;
+    ServicesResponse? services;
+    Failure? failure;
+
     try {
-      final results = await Future.wait([
-        remote.getSliders(),
-        remote.getServices(perPage: perPage),
-      ]);
-      return (
-        sliders: results[0] as SlidersResponse,
-        services: results[1] as ServicesResponse,
-        failure: null,
-      );
+      sliders = await remote.getSliders();
     } on DioException catch (e) {
-      return (
-        sliders: null,
-        services: null,
-        failure: ServerFailure.fromDioError(e),
-      );
+      failure = ServerFailure.fromDioError(e);
     } catch (e) {
-      return (
-        sliders: null,
-        services: null,
-        failure: ServerFailure(e.toString()),
-      );
+      failure = ServerFailure(e.toString());
     }
+
+    try {
+      services = await remote.getServices(perPage: perPage);
+    } on DioException catch (e) {
+      failure = ServerFailure.fromDioError(e);
+    } catch (e) {
+      failure = ServerFailure(e.toString());
+    }
+
+    if (sliders == null && services == null && failure != null) {
+      return (sliders: null, services: null, failure: failure);
+    }
+
+    return (sliders: sliders, services: services, failure: null);
   }
 }

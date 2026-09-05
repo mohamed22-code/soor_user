@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:soor_user_app/features/home/tabs/more/policy_screen.dart';
 
 import '../../core/utils/app_assets.dart';
 import '../../core/routes/app_routes.dart';
@@ -20,11 +21,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final formKey = GlobalKey<FormState>();
   bool checkBoxValue = false;
 
-  final namedController = TextEditingController(text: 'Mohamed Nasr');
-  final emailController = TextEditingController(text: 'Mohamed@example.com');
-  final phoneController = TextEditingController(text: '+966500000000');
-  final passwordController = TextEditingController(text: 'password123');
-  final rePasswordController = TextEditingController(text: 'password123');
+  final namedController = TextEditingController();
+  final emailController = TextEditingController();
+  final phoneController = TextEditingController();
+  final passwordController = TextEditingController();
+  final rePasswordController = TextEditingController();
 
   @override
   void dispose() {
@@ -36,25 +37,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
     super.dispose();
   }
 
-  bool _isSaudiPhone(String text) =>
-      RegExp(r'^(\+966|966|0)?5\d{8}$').hasMatch(text.trim());
+  bool _isValidPhone(String text) {
+    final v = text.trim().replaceAll(' ', '').replaceAll('-', '');
+    final isSaudi = RegExp(r'^(\+966|966|0)?5\d{8}$').hasMatch(v);
+    final isEgyptian = RegExp(r'^((\+20|0020)?1[0125]\d{8}|01[0125]\d{8})$')
+        .hasMatch(v);
+    return isSaudi || isEgyptian;
+  }
 
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
-    return BlocProvider(
-      create: (_) => AuthCubit(),
-      child: BlocConsumer<AuthCubit, AuthState>(
+    return BlocConsumer<AuthCubit, AuthState>(
         listener: (context, state) {
           if (state is AuthFailure) {
             ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text(state.error)));
           } else if (state is AuthRegisterSuccess) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(state.response.message ?? 'تم إنشاء الحساب')));
-            Navigator.of(context).pushNamedAndRemoveUntil(
-                AppRoutes.successRouteName, (route) => false);
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(
+                state.response.message ??
+                    'تم إنشاء الحساب - أدخل كود التحقق')));
+            final phone = context
+                .read<AuthCubit>()
+                .pendingPhone ?? phoneController.text.trim();
+            Navigator.of(context).pushNamed(
+                AppRoutes.verificationPasswordRouteName,
+                arguments: {'phone': phone, 'isRegister': true});
           }
         },
         builder: (context, state) {
@@ -87,8 +96,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 if (text == null || text
                                     .trim()
                                     .isEmpty) return 'يرجى إدخال رقم الجوال';
-                                if (!_isSaudiPhone(text))
-                                  return 'رقم جوال غير صحيح';
+                                if (!_isValidPhone(text))
+                                  return 'رقم غير صحيح (سعودي +9665... أو مصري 010...)';
                                 return null;
                               },
                             ),
@@ -114,6 +123,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             const Text(
                                 'الاسم كامل', style: AppStyle.medium16white),
                             CustomTextFormField(
+                              hintText: 'ادخل اسمك',
                               keyboardType: TextInputType.name,
                               controller: namedController,
                               validator: (text) =>
@@ -141,6 +151,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             const Text('تاكيد كلمه المرور',
                                 style: AppStyle.medium16white),
                             CustomTextFormField(
+                              hintText: 'تاكيد كلمه المرور',
                               keyboardType: TextInputType.visiblePassword,
                               obscureText: true,
                               controller: rePasswordController,
@@ -174,8 +185,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 ),
                                 const Text('اوافق علي شروط الخدمه و',
                                     style: AppStyle.medium16white),
-                                const Text('سياسة الخصوصيه',
-                                    style: AppStyle.medium16secondaryGrey),
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) => PolicyScreen(),));
+                                  },
+                                  child: Text('سياسة الخصوصيه',
+                                      style: AppStyle.medium16secondaryGrey),
+                                ),
                               ],
                             ),
                             Row(
@@ -185,7 +202,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     style: AppStyle.medium14darkGrey),
                                 TextButton(
                                   onPressed: () => Navigator.pop(context),
-                                  child: const Text('تسجيل دخول',
+                                  child: const Text('تسجيل دخول ',
                                       style: AppStyle.medium16secondaryGrey),
                                 ),
                               ],
@@ -200,7 +217,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
           );
         },
-      ),
     );
   }
 

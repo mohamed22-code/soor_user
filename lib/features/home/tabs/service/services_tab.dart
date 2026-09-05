@@ -100,7 +100,7 @@ class ServicesTab extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder: (_) => AddDetailsScreen(
-                            serviceId: s.id?.toString(),
+                            serviceId: s.id?.toString() ?? '${index + 1}',
                             serviceName: s.name,
                             hourPrice:
                                 s.hourPrice ?? state.hourPrice?.hourPrice,
@@ -126,7 +126,10 @@ class ServicesTab extends StatelessWidget {
                     onPressed: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => const AddDetailsScreen(),
+                        builder: (_) => const AddDetailsScreen(
+                          serviceId: '1',
+                          serviceName: 'طلب فرد',
+                        ),
                       ),
                     ),
                   ),
@@ -137,7 +140,10 @@ class ServicesTab extends StatelessWidget {
                     onPressed: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => const AddDetailsScreen(),
+                        builder: (_) => const AddDetailsScreen(
+                          serviceId: '2',
+                          serviceName: 'مناسبات',
+                        ),
                       ),
                     ),
                   ),

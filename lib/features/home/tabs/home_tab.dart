@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:soor_user_app/features/home/tabs/service/services_tab.dart';
+import 'booking_tab.dart';
+import 'service/add_details/add_details_screen.dart';
+import '../../../features/notifications/notification_screen.dart';
 
 import '../../../core/utils/app_assets.dart';
 import '../../../core/themes/colors/app_colors.dart';
@@ -35,9 +38,13 @@ class _HomeView extends StatefulWidget {
   State<_HomeView> createState() => _HomeViewState();
 }
 
-class _HomeViewState extends State<_HomeView> {
+class _HomeViewState extends State<_HomeView>
+    with AutomaticKeepAliveClientMixin {
   final PageController _pageController = PageController();
   int _currentSlider = 0;
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void dispose() {
@@ -47,18 +54,25 @@ class _HomeViewState extends State<_HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Row(
           children: [
             Image.asset(AppAssets.soorLogo),
             const Spacer(),
             InkWell(
-              onTap: () {},
-              child: const Icon(Icons.notifications_none),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => NotificationScreen()));
+              },
+              child: const Icon(Icons.notifications_none, color: Colors.white),
             )
           ],
         ),
@@ -70,21 +84,32 @@ class _HomeViewState extends State<_HomeView> {
                 child: CircularProgressIndicator(color: AppColors.primaryText));
           }
           if (state is HomeError) {
-            return Center(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: width * 0.04),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(state.message, style: AppStyle.medium16white,
-                        textAlign: TextAlign.center),
-                    SizedBox(height: height * 0.02),
-                    CustomElevatedButton(
-                      onPressed: () => context.read<HomeCubit>().refresh(),
-                      text: 'إعادة المحاولة',
-                      backgroundColor: AppColors.primary600,
+            return RefreshIndicator(
+              color: AppColors.primaryText,
+              onRefresh: () => context.read<HomeCubit>().refresh(),
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: SizedBox(
+                  height: height * 0.8,
+                  child: Center(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: width * 0.04),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(state.message, style: AppStyle.medium16white,
+                              textAlign: TextAlign.center),
+                          SizedBox(height: height * 0.02),
+                          CustomElevatedButton(
+                            onPressed: () =>
+                                context.read<HomeCubit>().refresh(),
+                            text: 'إعادة المحاولة',
+                            backgroundColor: AppColors.primary600,
+                          ),
+                        ],
+                      ),
                     ),
-                  ],
+                  ),
                 ),
               ),
             );
@@ -93,6 +118,13 @@ class _HomeViewState extends State<_HomeView> {
           final sliders = state is HomeLoaded ? state.sliders : <SliderModel>[];
           final services = state is HomeLoaded ? state.services : <
               ServiceModel>[];
+          if (sliders.isNotEmpty && _currentSlider >= sliders.length) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (mounted) setState(() => _currentSlider = 0);
+            });
+          } else if (sliders.isEmpty && _currentSlider != 0) {
+            _currentSlider = 0;
+          }
 
           return RefreshIndicator(
             color: AppColors.primaryText,
@@ -126,20 +158,49 @@ class _HomeViewState extends State<_HomeView> {
                     SizedBox(height: height * 0.02),
                     const Text('الحجز الحالي', style: AppStyle.bold24white),
                     SizedBox(height: height * 0.02),
-                    const CustomContainerBooking(
-                      bookingNumber: '#12336455',
-                      price: '1600 ريال',
-                      status: 'منتهي',
-                      date: 'اليوم 8:00 م الى 11:00 م',
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) =>
+                                const Scaffold(
+                                  backgroundColor: Colors.black,
+                                  body: SafeArea(
+                                      child:
+                                      BookingTab()),
+                                )));
+                      },
+                      borderRadius: BorderRadius.circular(12),
+                      child: const CustomContainerBooking(
+                        bookingNumber: '#12336455',
+                        price: '1600 ريال',
+                        status: 'منتهي',
+                        date: 'اليوم 8:00 م الى 11:00 م',
+                      ),
                     ),
                     SizedBox(height: height * 0.02),
                     const Text('اراء عملائنا', style: AppStyle.bold24white),
                     SizedBox(height: height * 0.01),
-                    const CustomContainerOpinions(),
+                    const CustomContainerOpinions(name: 'عبدالله القحطاني',
+                        comment: 'حارس محترف وملتزم بالوقت، أنصح به بشدة',
+                        rating: 5),
                     SizedBox(height: height * 0.02),
-                    const CustomContainerOpinions(),
+                    const CustomContainerOpinions(name: 'سارة العتيبي',
+                        comment: 'خدمة راقية وتعامل ممتاز، شكراً سور',
+                        rating: 5),
                     SizedBox(height: height * 0.02),
-                    const CustomContainerOpinions(),
+                    const CustomContainerOpinions(name: 'فيصل الحربي',
+                        comment: 'الالتزام بالمواعيد ممتاز لكن السعر مرتفع قليلاً',
+                        rating: 4),
+                    SizedBox(height: height * 0.02),
+                    const CustomContainerOpinions(name: 'نورة الدوسري',
+                        comment: 'تجربة رائعة، الحارس كان مهذب ومتعاون جداً',
+                        rating: 5),
+                    SizedBox(height: height * 0.02),
+                    const CustomContainerOpinions(name: 'خالد المطيري',
+                        comment: 'خدمة جيدة واحترافية عالية',
+                        rating: 4),
                     SizedBox(height: height * 0.02),
                   ],
                 ),
@@ -160,7 +221,13 @@ class _HomeViewState extends State<_HomeView> {
           const Text('خصم 50% علي اول حجز', style: AppStyle.bold24white,
               textAlign: TextAlign.right),
           SizedBox(height: height * 0.01),
-          CustomElevatedButton(onPressed: () {},
+          CustomElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => const ServicesTab()));
+              },
               text: 'احجز الان',
               backgroundColor: AppColors.primary600),
           const Center(
@@ -180,66 +247,75 @@ class _HomeViewState extends State<_HomeView> {
             itemCount: sliders.length,
             itemBuilder: (context, index) {
               final s = sliders[index];
-              return Container(
-                margin: EdgeInsets.only(right: index == 0 ? 0 : 8),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: AppColors.appBarColor,
-                  image: s.image != null && s.image!.isNotEmpty
-                      ? DecorationImage(
-                      image: NetworkImage(s.image!), fit: BoxFit.cover)
-                      : null,
-                ),
-                child: s.image == null || s.image!.isEmpty
-                    ? Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(s.title ?? 'خصم 50% علي اول حجز',
-                          style: AppStyle.bold24white),
-                      if (s.description != null) ...[
-                        const SizedBox(height: 8),
-                        Text(s.description!, style: AppStyle.medium14darkGrey,
-                            maxLines: 2),
-                      ],
-                      const SizedBox(height: 12),
-                      CustomElevatedButton(onPressed: () {},
-                          text: 'احجز الان',
-                          backgroundColor: AppColors.primary600),
-                    ],
+              final hasImage = s.image != null && s.image!.isNotEmpty;
+              return ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Container(
+                  margin: EdgeInsets.only(right: index == 0 ? 0 : 8),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: AppColors.appBarColor,
                   ),
-                )
-                    : Stack(
-                  alignment: Alignment.bottomRight,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Colors.transparent,
-                            Colors.black.withValues(alpha: 0.7)
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      if (hasImage)
+                        Image.network(
+                          s.image!,
+                          fit: BoxFit.cover,
+                          errorBuilder: (_, __, ___) =>
+                              Container(color: AppColors.appBarColor),
+                        ),
+                      if (hasImage)
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Colors.transparent,
+                                Colors.black.withValues(alpha: 0.7)
+                              ],
+                            ),
+                          ),
+                        ),
+                      Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: hasImage
+                              ? MainAxisAlignment.end
+                              : MainAxisAlignment.center,
+                          children: [
+                            Text(hasImage ? (s.title ?? '') : (s.title ??
+                                'خصم 50% علي اول حجز'), style: hasImage
+                                ? AppStyle.bold16white
+                                : AppStyle.bold24white),
+                            if (s.description != null) ...[
+                              const SizedBox(height: 8),
+                              Text(s.description!,
+                                  style: AppStyle.medium14darkGrey,
+                                  maxLines: 2),
+                            ],
+                            if (!hasImage) ...[
+                              const SizedBox(height: 12),
+                              CustomElevatedButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) =>
+                                            const ServicesTab()));
+                                  },
+                                  text: 'احجز الان',
+                                  backgroundColor: AppColors.primary600),
+                            ],
                           ],
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(12),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(s.title ?? '', style: AppStyle.bold16white),
-                          if (s.description != null) Text(
-                              s.description!, style: AppStyle.medium14darkGrey),
-                        ],
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               );
             },
@@ -272,13 +348,33 @@ class _HomeViewState extends State<_HomeView> {
     if (services.isEmpty) {
       return Row(
         children: [
-          const CustomContainerServices(color: Colors.orange,
-              icon: Icon(Icons.person, size: 35, color: Colors.white),
-              text: 'طلب فرد'),
+          CustomContainerServices(
+              color: Colors.orange,
+              icon: const Icon(Icons.person, size: 35, color: Colors.white),
+              text: 'طلب فرد',
+              onTap: () =>
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) =>
+                          const AddDetailsScreen(
+                            serviceId: '1',
+                            serviceName: 'طلب فرد',
+                          )))),
           SizedBox(width: width * 0.04),
-          const CustomContainerServices(color: AppColors.primary600,
-              icon: Icon(Icons.person, size: 35, color: Colors.white),
-              text: 'مناسبات'),
+          CustomContainerServices(
+              color: AppColors.primary600,
+              icon: const Icon(Icons.person, size: 35, color: Colors.white),
+              text: 'مناسبات',
+              onTap: () =>
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) =>
+                          const AddDetailsScreen(
+                            serviceId: '2',
+                            serviceName: 'مناسبات',
+                          )))),
         ],
       );
     }
@@ -308,6 +404,18 @@ class _HomeViewState extends State<_HomeView> {
                     Icons.person, size: 35, color: Colors.white))
                 : const Icon(Icons.person, size: 35, color: Colors.white),
             text: s.name ?? 'خدمة ${index + 1}',
+            onTap: () =>
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) =>
+                        AddDetailsScreen(
+                          serviceId: s.id?.toString() ?? '${index + 1}',
+                          serviceName: s.name,
+                          hourPrice: s.hourPrice ?? s.price,
+                        ),
+                  ),
+                ),
           );
         },
       ),

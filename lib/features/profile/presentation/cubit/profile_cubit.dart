@@ -70,10 +70,19 @@ class ProfileCubit extends Cubit<ProfileState> {
   }
 
   String _normalizePhone(String raw) {
-    var p = raw.trim();
-    if (p.startsWith('+966')) return p;
-    if (p.startsWith('966')) return '+$p';
-    if (p.startsWith('0')) return '+966${p.substring(1)}';
+    var p = raw.trim().replaceAll(' ', '').replaceAll('-', '');
+    if (p.startsWith('+20') || p.startsWith('+966')) return p;
+    if (p.startsWith('0020')) return '+20${p.substring(4)}';
+    if (p.startsWith('20') && RegExp(r'^201[0125]\d{8}$').hasMatch(p))
+      return '+$p';
+    if (p.startsWith('966') && RegExp(r'^9665\d{8}$').hasMatch(p)) return '+$p';
+    if (p.startsWith('0')) {
+      if (RegExp(r'^01[0125]\d{8}$').hasMatch(p)) return '+20${p.substring(1)}';
+      if (RegExp(r'^05\d{8}$').hasMatch(p)) return '+966${p.substring(1)}';
+      if (p.length == 11) return '+20${p.substring(1)}';
+      if (p.length == 10) return '+966${p.substring(1)}';
+    }
+    if (RegExp(r'^1[0125]\d{8}$').hasMatch(p)) return '+20$p';
     if (RegExp(r'^5\d{8}$').hasMatch(p)) return '+966$p';
     return p;
   }

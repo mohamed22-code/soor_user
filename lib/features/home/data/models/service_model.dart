@@ -45,6 +45,8 @@ class ServiceModel {
     'image': image,
     'icon': icon,
     'price': price,
+    'hour_price': hourPrice,
+    'hourPrice': hourPrice,
   };
 }
 

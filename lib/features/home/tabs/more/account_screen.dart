@@ -23,8 +23,13 @@ class _AccountScreenState extends State<AccountScreen> {
   final confirmController = TextEditingController();
   bool _initialized = false;
 
-  bool _isSaudiPhone(String t) =>
-      RegExp(r'^(\+966|966|0)?5\d{8}$').hasMatch(t.trim());
+  bool _isValidPhone(String t) {
+    final v = t.trim().replaceAll(' ', '').replaceAll('-', '');
+    final isSaudi = RegExp(r'^(\+966|966|0)?5\d{8}$').hasMatch(v);
+    final isEgyptian = RegExp(r'^((\+20|0020)?1[0125]\d{8}|01[0125]\d{8})$')
+        .hasMatch(v);
+    return isSaudi || isEgyptian;
+  }
 
   @override
   void dispose() {
@@ -168,8 +173,8 @@ class _AccountScreenState extends State<AccountScreen> {
       _snack('يرجى إدخال الاسم');
       return false;
     }
-    if (!_isSaudiPhone(phoneController.text)) {
-      _snack('رقم جوال غير صحيح');
+    if (!_isValidPhone(phoneController.text)) {
+      _snack('رقم غير صحيح (سعودي +9665... أو مصري 010...)');
       return false;
     }
     if (!RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$').hasMatch(

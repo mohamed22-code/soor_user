@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import '../../helpers/secure_storage_helper.dart';
 
 class DioApiManager {
@@ -38,8 +39,16 @@ class DioApiManager {
         onError: (e, handler) => handler.next(e),
       ),
     );
-    dio.interceptors.add(
-      LogInterceptor(requestBody: true, responseBody: true, error: true),
-    );
+    if (kDebugMode) {
+      dio.interceptors.add(
+        LogInterceptor(
+          requestBody: true,
+          responseBody: true,
+          error: true,
+          requestHeader: false,
+          responseHeader: false,
+        ),
+      );
+    }
   }
 }

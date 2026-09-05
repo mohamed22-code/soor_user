@@ -20,8 +20,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final formKey = GlobalKey<FormState>();
-  final phoneController = TextEditingController(text: '+966500000000');
-  final passwordController = TextEditingController(text: 'password123');
+  final phoneController = TextEditingController();
+  final passwordController = TextEditingController();
 
   @override
   void dispose() {
@@ -30,19 +30,19 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  bool _isSaudiPhone(String text) {
-    final v = text.trim();
-    // accepts +9665xxxxxxxx, 9665xxxxxxxx, 05xxxxxxxx, 5xxxxxxxx
-    return RegExp(r'^(\+966|966|0)?5\d{8}$').hasMatch(v);
+  bool _isValidPhone(String text) {
+    final v = text.trim().replaceAll(' ', '').replaceAll('-', '');
+    final isSaudi = RegExp(r'^(\+966|966|0)?5\d{8}$').hasMatch(v);
+    final isEgyptian = RegExp(r'^((\+20|0020)?1[0125]\d{8}|01[0125]\d{8})$')
+        .hasMatch(v);
+    return isSaudi || isEgyptian;
   }
 
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
-    return BlocProvider(
-      create: (_) => AuthCubit(),
-      child: BlocConsumer<AuthCubit, AuthState>(
+    return BlocConsumer<AuthCubit, AuthState>(
         listener: (context, state) {
           if (state is AuthFailure) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -64,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   Image.asset(AppAssets.languageIcon),
                   SizedBox(width: width * 0.01),
-                  Text('English', style: AppStyle.medium16primary),
+                  Text('العربية', style: AppStyle.medium16primary),
                 ],
               ),
               actions: [
@@ -100,8 +100,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               if (text == null || text
                                   .trim()
                                   .isEmpty) return 'يرجى إدخال رقم الجوال';
-                              if (!_isSaudiPhone(text))
-                                return 'رقم جوال غير صحيح (مثال +966500000000)';
+                              if (!_isValidPhone(text))
+                                return 'رقم غير صحيح (سعودي +9665... أو مصري 010...)';
                               return null;
                             },
                           ),
@@ -169,7 +169,6 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           );
         },
-      ),
     );
   }
 

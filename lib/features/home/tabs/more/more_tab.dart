@@ -29,7 +29,6 @@ class MoreTab extends StatelessWidget {
             Navigator.of(context).pushNamedAndRemoveUntil(
                 'login_screen', (r) => false);
           } else if (state is ProfileError) {
-            // لا نعرض SnackBar عند الخطأ الأولي للحفاظ على الـ fallback رقم
             // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message)));
           }
         },
@@ -48,6 +47,10 @@ class MoreTab extends StatelessWidget {
                           builder: (_) => const AccountScreen())),
                   child: BlocBuilder<ProfileCubit, ProfileState>(
                     builder: (context, state) {
+                      if (state is ProfileLoading || state is ProfileInitial) {
+                        return const CustomAccountContainer(
+                            name: 'جاري التحميل...', phone: '—');
+                      }
                       String? name;
                       String? phone;
                       if (state is ProfileLoaded) {
@@ -57,6 +60,11 @@ class MoreTab extends StatelessWidget {
                       if (state is ProfileUpdated) {
                         name = state.user.userName;
                         phone = state.user.userPhone;
+                      }
+                      if (state is ProfileError) {
+                        // في حالة الخطأ اعرض آخر fallback بدل وميض كريم خليل
+                        return const CustomAccountContainer(
+                            name: '—', phone: '—');
                       }
                       return CustomAccountContainer(name: name, phone: phone);
                     },
@@ -68,7 +76,7 @@ class MoreTab extends StatelessWidget {
                   icon: Icons.language_outlined,
                   trailing: Row(
                     children: [
-                      const Text('English', style: AppStyle.medium16primary),
+                      const Text('العربية', style: AppStyle.medium16primary),
                       SizedBox(width: width * 0.04),
                       const Icon(Icons.arrow_forward_ios_outlined,
                           color: AppColors.primaryText, size: 24),

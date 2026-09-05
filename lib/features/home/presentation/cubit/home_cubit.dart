@@ -14,14 +14,22 @@ class HomeCubit extends Cubit<HomeState> {
     final result = await repository.getHomeData(perPage: perPage);
     if (result.failure != null) {
       emit(HomeError(result.failure!.message));
-    } else {
-      emit(
-        HomeLoaded(
-          sliders: result.sliders?.data ?? [],
-          services: result.services?.data ?? [],
-        ),
-      );
+      return;
     }
+    if (result.sliders?.status == false) {
+      emit(HomeError(result.sliders?.message ?? 'فشل تحميل السلايدر'));
+      return;
+    }
+    if (result.services?.status == false) {
+      emit(HomeError(result.services?.message ?? 'فشل تحميل الخدمات'));
+      return;
+    }
+    emit(
+      HomeLoaded(
+        sliders: result.sliders?.data ?? [],
+        services: result.services?.data ?? [],
+      ),
+    );
   }
 
   Future<void> refresh({int perPage = 5}) => fetchHome(perPage: perPage);

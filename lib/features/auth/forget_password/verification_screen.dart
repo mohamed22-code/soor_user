@@ -23,6 +23,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
   Timer? timer;
   String? phoneNumber;
   bool isArgumentsLoaded = false;
+  bool isRegister = false;
 
   @override
   void initState() {
@@ -46,7 +47,20 @@ class _VerificationScreenState extends State<VerificationScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (!isArgumentsLoaded) {
-      phoneNumber = ModalRoute.of(context)?.settings.arguments as String?;
+      final args = ModalRoute
+          .of(context)
+          ?.settings
+          .arguments;
+      if (args is String) {
+        phoneNumber = args;
+      } else if (args is Map) {
+        phoneNumber = args['phone'] as String?;
+        isRegister = args['isRegister'] == true;
+      }
+      // fallback to pendingPhone from the unified cubit
+      phoneNumber ??= context
+          .read<AuthCubit>()
+          .pendingPhone;
       isArgumentsLoaded = true;
     }
   }
@@ -82,9 +96,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
     final focusedPinTheme = defaultPinTheme.copyDecorationWith(
         border: Border.all(color: AppColors.borderSideColor));
 
-    return BlocProvider(
-      create: (_) => AuthCubit(),
-      child: BlocConsumer<AuthCubit, AuthState>(
+    return BlocConsumer<AuthCubit, AuthState>(
         listener: (context, state) {
           if (state is AuthFailure) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -92,8 +104,13 @@ class _VerificationScreenState extends State<VerificationScreen> {
           } else if (state is AuthVerifySuccess) {
             ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text(state.message)));
-            Navigator.of(context).pushNamed(
-                AppRoutes.resetPasswordRouteName, arguments: state.phone);
+            if (isRegister) {
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                  AppRoutes.successRouteName, (r) => false);
+            } else {
+              Navigator.of(context).pushNamed(
+                  AppRoutes.resetPasswordRouteName, arguments: state.phone);
+            }
           } else if (state is AuthResendSuccess) {
             ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text(state.message)));
@@ -194,7 +211,6 @@ class _VerificationScreenState extends State<VerificationScreen> {
             ),
           );
         },
-      ),
     );
   }
 }

@@ -193,14 +193,25 @@ class _ConfirmLocationScreenState extends State<ConfirmLocationScreen> {
   void _onConfirm() {
     final data = {
       'address': widget.address,
-      'landmark': landmarkController.text,
-      'building': buildingController.text,
-      'floor': floorController.text,
-      'extraDetails': extraDetailsController.text,
+      'landmark': landmarkController.text.trim(),
+      'building': buildingController.text.trim(),
+      'floor': floorController.text.trim(),
+      'extraDetails': extraDetailsController.text.trim(),
+      'lat': '24.713341045983846',
+      'long': '46.67668940689257',
+      'area_name': landmarkController.text.trim().isEmpty
+          ? 'Al Olaya'
+          : landmarkController.text.trim(),
+      'building_name': buildingController.text.trim().isEmpty
+          ? 'Tower 1'
+          : buildingController.text.trim(),
+      'city': 'Riyadh',
+      'region': 'Saudi Arabia',
+      'street': 'King Fahd Road',
+      'address_details': extraDetailsController.text.trim().isEmpty
+          ? widget.address
+          : extraDetailsController.text.trim(),
     };
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => AddDetailsScreen()),
-    );
+    Navigator.pop(context, data);
   }
 }

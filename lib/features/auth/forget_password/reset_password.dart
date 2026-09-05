@@ -27,10 +27,18 @@ class _ResetPasswordState extends State<ResetPassword> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (!loaded) {
-      phoneNumber = ModalRoute
+      final args = ModalRoute
           .of(context)
           ?.settings
-          .arguments as String?;
+          .arguments;
+      if (args is String) {
+        phoneNumber = args;
+      } else if (args is Map) {
+        phoneNumber = args['phone'] as String?;
+      }
+      phoneNumber ??= context
+          .read<AuthCubit>()
+          .pendingPhone;
       loaded = true;
     }
   }
@@ -46,9 +54,7 @@ class _ResetPasswordState extends State<ResetPassword> {
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
-    return BlocProvider(
-      create: (_) => AuthCubit(),
-      child: BlocConsumer<AuthCubit, AuthState>(
+    return BlocConsumer<AuthCubit, AuthState>(
         listener: (context, state) {
           if (state is AuthFailure) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -138,7 +144,6 @@ class _ResetPasswordState extends State<ResetPassword> {
             ),
           );
         },
-      ),
     );
   }
 

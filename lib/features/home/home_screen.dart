@@ -14,16 +14,18 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-   int selectedIndex=0;
-  List<Widget> tabsList = [
-HomeTab(), ServicesTab(), BookingTab(), MoreTab()
+  int selectedIndex = 0;
+  final List<Widget> tabsList = const [
+    HomeTab(),
+    ServicesTab(),
+    BookingTab(),
+    MoreTab(),
   ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(),
-      body: tabsList[selectedIndex],
+      body: IndexedStack(index: selectedIndex, children: tabsList),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: selectedIndex,
           onTap: (index) {

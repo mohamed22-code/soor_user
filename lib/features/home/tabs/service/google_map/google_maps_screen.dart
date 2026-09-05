@@ -1,41 +1,3 @@
-// import 'package:flutter/material.dart';
-// import 'package:flutter/services.dart';
-// import 'package:google_maps_flutter/google_maps_flutter.dart';
-//
-// class GoogleMapsScreen extends StatefulWidget {
-//   const GoogleMapsScreen({super.key});
-//
-//   @override
-//   State<GoogleMapsScreen> createState() => _GoogleMapsScreenState();
-// }
-//
-// class _GoogleMapsScreenState extends State<GoogleMapsScreen> {
-//   String? _style;
-//   Future<void> _loadMapStyle() async {
-//     final String style = await rootBundle.loadString('assets/map_style/map_style.json');
-//     setState(() {
-//       _style = style;
-//     });
-//   }
-//   @override
-//   void initState() {
-//     // TODO: implement initState
-//     super.initState();
-//     _loadMapStyle();
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//
-//     return GoogleMap(
-//       initialCameraPosition: CameraPosition(
-//         target: LatLng(24.713341045983846, 46.67668940689257),
-//         zoom: 10
-//       ),
-//       // style: styleMap,
-//     );
-//   }
-// }
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -259,14 +221,23 @@ class _GoogleMapsScreenState extends State<GoogleMapsScreen> {
           SizedBox(
             width: double.infinity,
             child: CustomElevatedButton(
-              onPressed: () {
-                Navigator.push(
+              onPressed: () async {
+                final result = await Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (_) =>
                         ConfirmLocationScreen(address: _addressLine1),
                   ),
                 );
+                if (result is Map<String, dynamic> && context.mounted) {
+                  final loc = {
+                    'lat': _initialPosition.latitude.toString(),
+                    'long': _initialPosition.longitude.toString(),
+                    'address': _addressLine1,
+                    ...result,
+                  };
+                  Navigator.pop(context, loc);
+                }
               },
               text: 'حفظ',
             ),

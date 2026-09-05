@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:soor_user_app/features/home/booking_details/booking_details_screen.dart';
 import 'package:soor_user_app/features/home/tabs/service/google_map/google_maps_screen.dart';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'core/routes/app_routes.dart';
 import 'core/themes/theme/app_theme.dart';
 import 'features/auth/forget_password/forget_password.dart';
@@ -9,6 +10,7 @@ import 'features/auth/forget_password/password_change.dart';
 import 'features/auth/forget_password/reset_password.dart';
 import 'features/auth/forget_password/verification_screen.dart';
 import 'features/auth/login_screen.dart';
+import 'features/auth/presentation/cubit/auth_cubit.dart';
 import 'features/auth/register_screen.dart';
 import 'features/auth/success_screen.dart';
 import 'features/home/chat/chat_screen.dart';
@@ -25,27 +27,32 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      locale: Locale('ar'),
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      themeMode: ThemeMode.light,
-      theme: AppTheme.lightTheme,
-      home: const LoginScreen(),
-      routes: {
-        AppRoutes.loginRouteName: (context) => const LoginScreen(),
-        AppRoutes.registerRouteName: (context) => const RegisterScreen(),
-        AppRoutes.homeRouteName: (context) => const HomeScreen(),
-        AppRoutes.successRouteName: (context) => const SuccessScreen(),
-        AppRoutes.forgetPasswordRouteName: (context) => const ForgetPassword(),
-        AppRoutes.resetPasswordRouteName: (context) => const ResetPassword(),
-        AppRoutes.changePasswordRouteName: (context) => const PasswordChange(),
-        AppRoutes.verificationPasswordRouteName: (context) =>
-            const VerificationScreen(),
-        AppRoutes.chatRouteName: (context) => ChatScreen(),
-      },
+    return BlocProvider(
+      create: (_) => AuthCubit(),
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
+        locale: const Locale('ar'),
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        themeMode: ThemeMode.light,
+        theme: AppTheme.lightTheme,
+        home: const LoginScreen(),
+        routes: {
+          AppRoutes.loginRouteName: (context) => const LoginScreen(),
+          AppRoutes.registerRouteName: (context) => const RegisterScreen(),
+          AppRoutes.homeRouteName: (context) => const HomeScreen(),
+          AppRoutes.successRouteName: (context) => const SuccessScreen(),
+          AppRoutes.forgetPasswordRouteName: (context) =>
+              const ForgetPassword(),
+          AppRoutes.resetPasswordRouteName: (context) => const ResetPassword(),
+          AppRoutes.changePasswordRouteName: (context) =>
+              const PasswordChange(),
+          AppRoutes.verificationPasswordRouteName: (context) =>
+              const VerificationScreen(),
+          AppRoutes.chatRouteName: (context) => const ChatScreen(),
+        },
+      ),
     );
   }
 }
